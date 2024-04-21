@@ -4,7 +4,23 @@ import { MobileNavbar } from './components/Main/MobileNavbar';
 
 const router = createBrowserRouter([
   {
+    path: '/home',
+    element: <MobileNavbar />,
+  },
+  {
     path: '/',
+    element: <MobileNavbar />,
+  },
+  {
+    path: '/services',
+    element: <MobileNavbar />,
+  },
+  {
+    path: '/projects',
+    element: <MobileNavbar />,
+  },
+  {
+    path: '/contact',
     element: <MobileNavbar />,
   },
 ]);

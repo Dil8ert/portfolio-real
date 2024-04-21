@@ -1,10 +1,33 @@
-import { AppShell, Burger, Group, UnstyledButton } from '@mantine/core';
+import { AppShell, Burger, Center, Grid, Group, Text, Title, UnstyledButton } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 // import { MantineLogo } from '@mantinex/mantine-logo';
 import classes from './MobileNavbar.module.css';
+import leftImg from '../Images/image.png';
+import dil8ert from '../Images/dil8ert.mp4';
+import { motion } from 'framer-motion';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import HomePage from './HomePage';
+import CardComponent from './CardComponent';
+import Projects from './Projects';
+import { Contact } from './Contact';
 
 export function MobileNavbar() {
   const [opened, { toggle }] = useDisclosure();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const pathname = location.pathname;
+  const [select, setSelect] = useState(pathname);
+
+  useEffect(() => {
+    localStorage.setItem('page', pathname);
+  }, []);
+
+  const handleClick = (param) => {
+    navigate('/' + param);
+    setSelect('/' + param);
+    localStorage.setItem('page', '/' + param);
+  };
 
   return (
     <AppShell
@@ -13,15 +36,60 @@ export function MobileNavbar() {
       padding="md"
     >
       <AppShell.Header>
-        <Group h="100%" px="md">
+        <Group h="100%" px="lg" className={classes.main}>
           <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
           <Group justify="space-between" style={{ flex: 1 }}>
             {/* <MantineLogo size={30} /> */}
+            <Text>Dil8ert</Text>
             <Group ml="xl" gap={0} visibleFrom="sm">
-              <UnstyledButton className={classes.control}>Home</UnstyledButton>
-              <UnstyledButton className={classes.control}>Blog</UnstyledButton>
-              <UnstyledButton className={classes.control}>Contacts</UnstyledButton>
-              <UnstyledButton className={classes.control}>Support</UnstyledButton>
+              <UnstyledButton
+                className={classes.control}
+                style={{
+                  backgroundColor:
+                    select === '/home'
+                      ? 'light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6))'
+                      : '',
+                }}
+                onClick={() => handleClick('home')}
+              >
+                Home
+              </UnstyledButton>
+              <UnstyledButton
+                className={classes.control}
+                style={{
+                  backgroundColor:
+                    select === '/services'
+                      ? 'light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6))'
+                      : '',
+                }}
+                onClick={() => handleClick('services')}
+              >
+                Services
+              </UnstyledButton>
+              <UnstyledButton
+                className={classes.control}
+                style={{
+                  backgroundColor:
+                    select === '/projects'
+                      ? 'light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6))'
+                      : '',
+                }}
+                onClick={() => handleClick('projects')}
+              >
+                Projects
+              </UnstyledButton>
+              <UnstyledButton
+                className={classes.control}
+                style={{
+                  backgroundColor:
+                    select === '/contact'
+                      ? 'light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6))'
+                      : '',
+                }}
+                onClick={() => handleClick('contact')}
+              >
+                Contact Us!
+              </UnstyledButton>
             </Group>
           </Group>
         </Group>
@@ -29,14 +97,20 @@ export function MobileNavbar() {
 
       <AppShell.Navbar py="md" px={4}>
         <UnstyledButton className={classes.control}>Home</UnstyledButton>
-        <UnstyledButton className={classes.control}>Blog</UnstyledButton>
-        <UnstyledButton className={classes.control}>Contacts</UnstyledButton>
-        <UnstyledButton className={classes.control}>Support</UnstyledButton>
+        <UnstyledButton className={classes.control}>Services</UnstyledButton>
+        <UnstyledButton className={classes.control}>Projects</UnstyledButton>
+        <UnstyledButton className={classes.control}>Contact Us!</UnstyledButton>
       </AppShell.Navbar>
 
-      <AppShell.Main>
-        Navbar is only visible on mobile, links that are rendered in the header on desktop are
-        hidden on mobile in header and rendered in navbar instead.
+      <AppShell.Main
+        style={{
+          height: '100%',
+          backgroundColor: localStorage.getItem('page') === '/contact' ? 'black' : 'white',
+        }}
+      >
+        {localStorage.getItem('page') === '/home' ? <HomePage /> : ''}
+        {localStorage.getItem('page') === '/projects' ? <Projects /> : ''}
+        {localStorage.getItem('page') === '/contact' ? <Contact /> : ''}
       </AppShell.Main>
     </AppShell>
   );
