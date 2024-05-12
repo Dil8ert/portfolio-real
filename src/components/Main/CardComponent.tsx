@@ -11,7 +11,9 @@ interface card {
 export default function CardComponent({ text, url, title, img }: card) {
   const navigate = useNavigate();
   const handleClick = (url) => {
-    navigate(url);
+    if (url) {
+      window.open(url, '_blank');
+    }
   };
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder>

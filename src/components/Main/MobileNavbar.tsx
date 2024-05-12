@@ -11,6 +11,8 @@ import HomePage from './HomePage';
 import CardComponent from './CardComponent';
 import Projects from './Projects';
 import { Contact } from './Contact';
+import { CardsCarousel } from './CardsCarousel';
+import { ContactUs } from './Contact/ContactUs';
 
 export function MobileNavbar() {
   const [opened, { toggle }] = useDisclosure();
@@ -110,7 +112,8 @@ export function MobileNavbar() {
       >
         {localStorage.getItem('page') === '/home' ? <HomePage /> : ''}
         {localStorage.getItem('page') === '/projects' ? <Projects /> : ''}
-        {localStorage.getItem('page') === '/contact' ? <Contact /> : ''}
+        {localStorage.getItem('page') === '/contact' ? <ContactUs /> : ''}
+        {localStorage.getItem('page') === '/services' ? <CardsCarousel /> : ''}
       </AppShell.Main>
     </AppShell>
   );
