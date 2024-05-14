@@ -4,6 +4,12 @@ import { Button, Paper, Title, useMantineTheme, Text } from '@mantine/core';
 import classes from './CardsCarousel.module.css';
 import graphicDesign from '../Images/graphics.jpg';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { useRef, useState } from 'react';
+import purpleImg from '../Images/purple.jpg';
+import Autoplay from 'embla-carousel-autoplay';
+import botDev from '../Images/botDev.png';
+import webDev from '../Images/webDev.png';
 
 const data = [
   {
@@ -12,15 +18,18 @@ const data = [
     category: 'nature',
   },
   {
-    image:
-      'https://images.unsplash.com/photo-1559494007-9f5847c49d94?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&q=80',
+    image: webDev,
     title: 'Web Development',
     category: 'beach',
   },
   {
-    image:
-      'https://images.unsplash.com/photo-1608481337062-4093bf3ed404?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&q=80',
+    image: botDev,
     title: 'Bot Development',
+    category: 'nature',
+  },
+  {
+    image: graphicDesign,
+    title: 'Graphic Design',
     category: 'nature',
   },
 ];
@@ -33,6 +42,11 @@ interface CardProps {
 
 function Card({ image, title, category }: CardProps) {
   const navigate = useNavigate();
+  const [backGroundImg, setBackGroundImg] = useState(1);
+
+  const variants = {
+    animate: { y: '2rem' },
+  };
 
   const selectService = () => {
     localStorage.setItem('service', title);
@@ -42,14 +56,32 @@ function Card({ image, title, category }: CardProps) {
 
   return (
     <Paper
+      onHoverStart={(e) => {
+        setBackGroundImg(0.6);
+      }}
+      onHoverEnd={(e) => {
+        setBackGroundImg(1);
+      }}
       shadow="md"
       p="xl"
       radius="md"
-      style={{ backgroundImage: `url(${image})` }}
+      component={motion.div}
+      animate={{
+        opacity: backGroundImg, // This will work
+      }}
+      transition={{ delay: 0.2 }}
+      style={{ backgroundImage: `url(${image})`, width: '100%', height: '100%' }}
       className={classes.card}
+      whileHover="animate"
     >
-      <div></div>
-      <Button variant="white" color="dark" onClick={selectService}>
+      <Button
+        variant="white"
+        color="dark"
+        onClick={selectService}
+        component={motion.button}
+        variants={variants}
+        whileHover={{ scale: 2, top: '40%', left: '40%' }}
+      >
         Create a ticket!
       </Button>
     </Paper>
@@ -59,6 +91,7 @@ function Card({ image, title, category }: CardProps) {
 export function CardsCarousel() {
   const theme = useMantineTheme();
   const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
+  const autoplay = useRef(Autoplay({ delay: 4000 }));
   const slides = data.map((item) => (
     <Carousel.Slide key={item.title}>
       <Card {...item} />
@@ -71,6 +104,9 @@ export function CardsCarousel() {
       slideGap={{ base: 'xl', sm: 2 }}
       align="start"
       slidesToScroll={mobile ? 1 : 2}
+      plugins={[autoplay.current]}
+      onMouseEnter={autoplay.current.stop}
+      onMouseLeave={autoplay.current.reset}
     >
       {slides}
     </Carousel>
