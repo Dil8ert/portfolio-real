@@ -21,7 +21,11 @@ export function MobileNavbar() {
   const [select, setSelect] = useState(pathname);
 
   useEffect(() => {
-    localStorage.setItem('page', pathname);
+    if (pathname == '/') {
+      localStorage.setItem('page', 'home');
+    } else {
+      localStorage.setItem('page', pathname);
+    }
   }, []);
 
   const handleClick = (param: string) => {
