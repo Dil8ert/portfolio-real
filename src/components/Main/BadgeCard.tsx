@@ -1,4 +1,3 @@
-import { IconHeart } from '@tabler/icons-react';
 import { Card, Image, Text, Group, Badge, Button, ActionIcon } from '@mantine/core';
 import classes from './BadgeCard.module.css';
 

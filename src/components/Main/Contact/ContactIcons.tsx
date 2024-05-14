@@ -1,11 +1,11 @@
 import { Text, Box, Stack, rem } from '@mantine/core';
-import { IconSun, IconPhone, IconMapPin, IconAt } from '@tabler/icons-react';
+
 import classes from './ContactIcons.module.css';
 import { RxDiscordLogo } from 'react-icons/rx';
 import { PiTelegramLogoLight } from 'react-icons/pi';
 
 interface ContactIconProps extends Omit<React.ComponentPropsWithoutRef<'div'>, 'title'> {
-  icon: typeof IconSun;
+  icon: typeof RxDiscordLogo;
   title: React.ReactNode;
   description: React.ReactNode;
 }
