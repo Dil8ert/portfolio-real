@@ -1,19 +1,16 @@
-import { AppShell, Burger, Center, Grid, Group, Text, Title, UnstyledButton } from '@mantine/core';
+import { AppShell, Burger, Grid, Group, Text, UnstyledButton } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 // import { MantineLogo } from '@mantinex/mantine-logo';
 import classes from './MobileNavbar.module.css';
-import leftImg from '../Images/image.png';
-import dil8ert from '../Images/dil8ert.mp4';
-import { motion } from 'framer-motion';
+
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import HomePage from './HomePage';
-import CardComponent from './CardComponent';
+
 import Projects from './Projects';
-import { Contact } from './Contact';
-import { CardsCarousel } from './CardsCarousel';
+
 import { ContactUs } from './Contact/ContactUs';
-import { BadgeCard } from './BadgeCard';
+
 import Services from './Services';
 
 export function MobileNavbar() {
@@ -27,7 +24,7 @@ export function MobileNavbar() {
     localStorage.setItem('page', pathname);
   }, []);
 
-  const handleClick = (param) => {
+  const handleClick = (param: string) => {
     navigate('/' + param);
     setSelect('/' + param);
     localStorage.setItem('page', '/' + param);

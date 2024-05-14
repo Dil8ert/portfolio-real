@@ -10,7 +10,7 @@ interface card {
 
 export default function CardComponent({ text, url, title, img }: card) {
   const navigate = useNavigate();
-  const handleClick = (url: string) => {
+  const handleClick = (url?: string) => {
     if (url) {
       window.open(url, '_blank');
     }
