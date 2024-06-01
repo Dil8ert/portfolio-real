@@ -3,7 +3,7 @@ import { useDisclosure } from '@mantine/hooks';
 // import { MantineLogo } from '@mantinex/mantine-logo';
 import classes from './MobileNavbar.module.css';
 
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import HomePage from './HomePage';
 
@@ -13,26 +13,15 @@ import { ContactUs } from './Contact/ContactUs';
 
 import Services from './Services';
 
-export function MobileNavbar() {
+interface MobileNavbarProps {
+  component: React.ComponentType<any>; // Use React.ComponentType to represent any component type
+}
+
+export function MobileNavbar({ component: Component }: MobileNavbarProps) {
   const [opened, { toggle }] = useDisclosure();
   const navigate = useNavigate();
   const location = useLocation();
   const pathname = location.pathname;
-  const [select, setSelect] = useState(pathname);
-
-  useEffect(() => {
-    if (pathname == '/') {
-      localStorage.setItem('page', 'home');
-    } else {
-      localStorage.setItem('page', pathname);
-    }
-  }, []);
-
-  const handleClick = (param: string) => {
-    navigate('/' + param);
-    setSelect('/' + param);
-    localStorage.setItem('page', '/' + param);
-  };
 
   return (
     <AppShell
@@ -46,84 +35,45 @@ export function MobileNavbar() {
           <Group justify="space-between" style={{ flex: 1 }}>
             <Text>Dil8ert</Text>
             <Group ml="xl" gap={0} visibleFrom="sm">
-              <UnstyledButton
-                className={classes.control}
-                style={{
-                  backgroundColor:
-                    select === '/home'
-                      ? 'light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6))'
-                      : '',
-                }}
-                onClick={() => handleClick('home')}
-              >
+              <Link to={'/home'} className={classes.control} style={{ textDecoration: 'none' }}>
                 Home
-              </UnstyledButton>
-              <UnstyledButton
-                className={classes.control}
-                style={{
-                  backgroundColor:
-                    select === '/services'
-                      ? 'light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6))'
-                      : '',
-                }}
-                onClick={() => handleClick('services')}
-              >
+              </Link>
+              <Link to={'/services'} className={classes.control} style={{ textDecoration: 'none' }}>
                 Services
-              </UnstyledButton>
-              <UnstyledButton
-                className={classes.control}
-                style={{
-                  backgroundColor:
-                    select === '/projects'
-                      ? 'light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6))'
-                      : '',
-                }}
-                onClick={() => handleClick('projects')}
-              >
+              </Link>
+              <Link to={'/projects'} className={classes.control} style={{ textDecoration: 'none' }}>
                 Projects
-              </UnstyledButton>
-              <UnstyledButton
-                className={classes.control}
-                style={{
-                  backgroundColor:
-                    select === '/contact'
-                      ? 'light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6))'
-                      : '',
-                }}
-                onClick={() => handleClick('contact')}
-              >
+              </Link>
+              <Link to={'/contact'} className={classes.control} style={{ textDecoration: 'none' }}>
                 Contact Us!
-              </UnstyledButton>
+              </Link>
             </Group>
           </Group>
         </Group>
       </AppShell.Header>
 
       <AppShell.Navbar py="md" px={4}>
-        <UnstyledButton className={classes.control} onClick={() => handleClick('home')}>
+        <Link to={'/home'} className={classes.control} style={{ textDecoration: 'none' }}>
           Home
-        </UnstyledButton>
-        <UnstyledButton className={classes.control} onClick={() => handleClick('services')}>
+        </Link>
+        <Link to={'/services'} className={classes.control} style={{ textDecoration: 'none' }}>
           Services
-        </UnstyledButton>
-        <UnstyledButton className={classes.control} onClick={() => handleClick('projects')}>
+        </Link>
+        <Link to={'/projects'} className={classes.control} style={{ textDecoration: 'none' }}>
           Projects
-        </UnstyledButton>
-        <UnstyledButton className={classes.control} onClick={() => handleClick('contact')}>
+        </Link>
+        <Link to={'/contact'} className={classes.control} style={{ textDecoration: 'none' }}>
           Contact Us!
-        </UnstyledButton>
+        </Link>
       </AppShell.Navbar>
 
       <AppShell.Main
         style={{
           height: '100%',
-          backgroundColor: localStorage.getItem('page') === '/contact' ? 'black' : 'white',
+          backgroundColor: pathname === '/contact' ? 'black' : 'white',
         }}
       >
-        {localStorage.getItem('page') === '/home' ? <HomePage /> : ''}
-        {localStorage.getItem('page') === '/projects' ? <Projects /> : ''}
-        {localStorage.getItem('page') === '/contact' ? <ContactUs /> : ''}
-        {localStorage.getItem('page') === '/services' ? <Services /> : ''}
+        <Component />
       </AppShell.Main>
     </AppShell>
   );
