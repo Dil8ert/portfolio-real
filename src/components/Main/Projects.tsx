@@ -1,13 +1,13 @@
 import { Grid } from '@mantine/core';
-import React from 'react';
-import CardComponent from './CardComponent';
-import lemon from '../Images/lemon.mp4';
-import fortune from '../Images/fortune.mp4';
-import onlyFans from '../Images/onlyfans.mp4';
-import boostify from '../Images/boostify.mp4';
 import alphaQuest from '../Images/alphaQuest.mp4';
+import boostify from '../Images/boostify.mp4';
+import coinFlipTele from '../Images/coinFlip.mp4';
+import fortune from '../Images/fortune.mp4';
+import lemon from '../Images/lemon.mp4';
+import onlyFans from '../Images/onlyfans.mp4';
 import telegramBot from '../Images/SeiGambling.mp4';
 import treeNews from '../Images/treeNews.mp4';
+import CardComponent from './CardComponent';
 
 export default function Projects() {
   return (
@@ -46,6 +46,9 @@ export default function Projects() {
       </Grid.Col>
       <Grid.Col span={{ base: 12, md: 6, lg: 3 }}>
         <CardComponent text="Crypto Feed Website" title="Tree News" img={treeNews} />
+      </Grid.Col>
+      <Grid.Col span={{ base: 12, md: 6, lg: 3 }}>
+        <CardComponent text="Solana Chain Gambling Bot" title="Telegram Bot" img={coinFlipTele} />
       </Grid.Col>
     </Grid>
   );

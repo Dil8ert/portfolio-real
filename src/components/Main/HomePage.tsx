@@ -1,9 +1,8 @@
 import { Grid, Title } from '@mantine/core';
-import React from 'react';
-import dil8ert from '../Images/dil8ert.mp4';
 import { motion } from 'framer-motion';
-import classes from './MobileNavbar.module.css';
 import { useNavigate } from 'react-router-dom';
+import dil8ert from '../Images/dil8ert.mp4';
+import classes from './MobileNavbar.module.css';
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -20,7 +19,19 @@ export default function HomePage() {
   return (
     <Grid style={{ height: '100%' }}>
       <Grid.Col span={{ base: 12, md: 7, lg: 7 }}>
-        <video autoPlay muted width="100%" height="100%">
+        <video
+          autoPlay
+          muted
+          width="100%"
+          height="100%"
+          playsInline
+          style={{
+            objectFit: 'cover',
+
+            margin: 0,
+            padding: 0,
+          }}
+        >
           <source src={dil8ert} type="video/mp4" />
           Your browser does not support the video tag.
         </video>

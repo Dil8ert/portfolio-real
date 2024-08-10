@@ -1,17 +1,9 @@
-import { AppShell, Burger, Grid, Group, Text, UnstyledButton } from '@mantine/core';
+import { AppShell, Burger, Group, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 // import { MantineLogo } from '@mantinex/mantine-logo';
 import classes from './MobileNavbar.module.css';
 
-import { useNavigate, useLocation, Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import HomePage from './HomePage';
-
-import Projects from './Projects';
-
-import { ContactUs } from './Contact/ContactUs';
-
-import Services from './Services';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 interface MobileNavbarProps {
   component: React.ComponentType<any>; // Use React.ComponentType to represent any component type
@@ -35,16 +27,32 @@ export function MobileNavbar({ component: Component }: MobileNavbarProps) {
           <Group justify="space-between" style={{ flex: 1 }}>
             <Text>Dil8ert</Text>
             <Group ml="xl" gap={0} visibleFrom="sm">
-              <Link to={'/home'} className={classes.control} style={{ textDecoration: 'none' }}>
+              <Link
+                to={'/home'}
+                className={classes.control}
+                style={{ textDecoration: 'none', color: 'white' }}
+              >
                 Home
               </Link>
-              <Link to={'/services'} className={classes.control} style={{ textDecoration: 'none' }}>
+              <Link
+                to={'/services'}
+                className={classes.control}
+                style={{ textDecoration: 'none', color: 'white' }}
+              >
                 Services
               </Link>
-              <Link to={'/projects'} className={classes.control} style={{ textDecoration: 'none' }}>
+              <Link
+                to={'/projects'}
+                className={classes.control}
+                style={{ textDecoration: 'none', color: 'white' }}
+              >
                 Projects
               </Link>
-              <Link to={'/contact'} className={classes.control} style={{ textDecoration: 'none' }}>
+              <Link
+                to={'/contact'}
+                className={classes.control}
+                style={{ textDecoration: 'none', color: 'white' }}
+              >
                 Contact Us!
               </Link>
             </Group>
@@ -53,16 +61,32 @@ export function MobileNavbar({ component: Component }: MobileNavbarProps) {
       </AppShell.Header>
 
       <AppShell.Navbar py="md" px={4}>
-        <Link to={'/home'} className={classes.control} style={{ textDecoration: 'none' }}>
+        <Link
+          to={'/home'}
+          className={classes.control}
+          style={{ textDecoration: 'none', color: 'white' }}
+        >
           Home
         </Link>
-        <Link to={'/services'} className={classes.control} style={{ textDecoration: 'none' }}>
+        <Link
+          to={'/services'}
+          className={classes.control}
+          style={{ textDecoration: 'none', color: 'white' }}
+        >
           Services
         </Link>
-        <Link to={'/projects'} className={classes.control} style={{ textDecoration: 'none' }}>
+        <Link
+          to={'/projects'}
+          className={classes.control}
+          style={{ textDecoration: 'none', color: 'white' }}
+        >
           Projects
         </Link>
-        <Link to={'/contact'} className={classes.control} style={{ textDecoration: 'none' }}>
+        <Link
+          to={'/contact'}
+          className={classes.control}
+          style={{ textDecoration: 'none', color: 'white' }}
+        >
           Contact Us!
         </Link>
       </AppShell.Navbar>
