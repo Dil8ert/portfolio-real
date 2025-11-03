@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import dil8ert from '../Images/dil8ert.mp4';
 import classes from './MobileNavbar.module.css';
+import { VideoWithLoading } from '../Loading';
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -19,22 +20,18 @@ export default function HomePage() {
   return (
     <Grid style={{ height: '100%' }}>
       <Grid.Col span={{ base: 12, md: 7, lg: 7 }}>
-        <video
-          autoPlay
-          muted
+        <VideoWithLoading
+          src={dil8ert}
           width="100%"
           height="100%"
-          playsInline
+          autoPlay
+          muted
           style={{
             objectFit: 'cover',
-
             margin: 0,
             padding: 0,
           }}
-        >
-          <source src={dil8ert} type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
+        />
       </Grid.Col>
       <Grid.Col
         span={{ base: 12, md: 5, lg: 5 }}

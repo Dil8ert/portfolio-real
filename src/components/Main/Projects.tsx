@@ -17,7 +17,15 @@ export default function Projects() {
           text="Trading Website"
           title="Lemon Terminal"
           img={lemon}
-          url="https://lemonterminal.com/"
+          url="https://lemon-demo-vlsi.vercel.app/"
+        />
+      </Grid.Col>
+       <Grid.Col span={{ base: 12, md: 6, lg: 3 }}>
+        <CardComponent
+          text="Discord Boosting Website"
+          title="Boostify"
+          img={boostify}
+          url="https://boostify-app-bay.vercel.app/"
         />
       </Grid.Col>
       <Grid.Col span={{ base: 12, md: 6, lg: 3 }}>
@@ -26,14 +34,7 @@ export default function Projects() {
       <Grid.Col span={{ base: 12, md: 6, lg: 3 }}>
         <CardComponent text="OnlyFans Portfolio" title="OnlyFans Store" img={onlyFans} />
       </Grid.Col>
-      <Grid.Col span={{ base: 12, md: 6, lg: 3 }}>
-        <CardComponent
-          text="Discord Boosting Website"
-          title="Boostify"
-          img={boostify}
-          url="https://boostify.to/"
-        />
-      </Grid.Col>
+     
       <Grid.Col span={{ base: 12, md: 6, lg: 3 }}>
         <CardComponent
           text="Trading Analytics Website(In Progress)"

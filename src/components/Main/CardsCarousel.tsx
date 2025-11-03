@@ -10,6 +10,7 @@ import purpleImg from '../Images/purple.jpg';
 import Autoplay from 'embla-carousel-autoplay';
 import botDev from '../Images/botDev.png';
 import webDev from '../Images/webDev.png';
+import { BackgroundImageWithLoading } from '../Loading';
 
 const data = [
   {
@@ -55,7 +56,8 @@ function Card({ image, title, category }: CardProps) {
   };
 
   return (
-    <Paper
+    <BackgroundImageWithLoading
+      image={image}
       onHoverStart={(e) => {
         setBackGroundImg(0.6);
       }}
@@ -70,7 +72,6 @@ function Card({ image, title, category }: CardProps) {
         opacity: backGroundImg, // This will work
       }}
       transition={{ delay: 0.2 }}
-      style={{ backgroundImage: `url(${image})`, width: '100%', height: '100%' }}
       className={classes.card}
       whileHover="animate"
     >
@@ -84,7 +85,7 @@ function Card({ image, title, category }: CardProps) {
       >
         Create a ticket!
       </Button>
-    </Paper>
+    </BackgroundImageWithLoading>
   );
 }
 

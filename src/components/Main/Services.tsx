@@ -32,9 +32,9 @@ export default function Services() {
 
   return (
     <>
-      <Grid>
+      <Grid style={{ height: '100vh', minHeight: '600px' }}>
         {mockdata.map((item, index) => (
-          <Grid.Col span={{ base: 12, md: 4, lg: 4 }}>
+          <Grid.Col span={{ base: 12, md: 4, lg: 4 }} style={{ height: '100%', display: 'flex' }}>
             <BadgeCard
               key={index}
               image={item.image}

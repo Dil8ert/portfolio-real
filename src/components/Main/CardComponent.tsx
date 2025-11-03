@@ -1,5 +1,6 @@
 import { Card, Image, Text, Badge, Button, Group } from '@mantine/core';
 import { Navigate, useNavigate } from 'react-router-dom';
+import { VideoWithLoading } from '../Loading';
 
 interface card {
   text: string;
@@ -18,9 +19,14 @@ export default function CardComponent({ text, url, title, img }: card) {
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder>
       <Card.Section component="a">
-        <video autoPlay width="100%" height={'100%'}>
-          <source src={img} type="video/mp4" />
-        </video>
+        <VideoWithLoading
+          src={img}
+          width="100%"
+          height="200px"
+          autoPlay
+          loop
+          muted
+        />
       </Card.Section>
 
       <Group justify="space-between" mt="md" mb="xs">
