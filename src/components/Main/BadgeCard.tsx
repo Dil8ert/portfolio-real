@@ -1,22 +1,39 @@
-import { Button, Card, Group, Image, Text } from '@mantine/core';
+import { Button, Card, Group, Text } from '@mantine/core';
 import classes from './BadgeCard.module.css';
+import { ImageWithLoading } from '../Loading';
 
 interface EnumServiceItem {
   image: string;
   title: string;
   description: string;
   url: string;
+  active?: boolean;
+  onReady?: () => void;
 }
 
-export function BadgeCard({ image, title, description, url }: EnumServiceItem) {
+export function BadgeCard({
+  image,
+  title,
+  description,
+  url,
+  active = true,
+  onReady,
+}: EnumServiceItem) {
   const openDiscord = () => {
     window.open(url, '_blank');
   };
 
   return (
-    <Card withBorder radius="md" p="md" className={classes.card}>
+    <Card withBorder radius="md" p="md" className={classes.card} h="100%" w="100%">
       <Card.Section>
-        <Image src={image} alt={title} />
+        <ImageWithLoading
+          src={image}
+          alt={title}
+          height={220}
+          fit="cover"
+          active={active}
+          onReady={onReady}
+        />
       </Card.Section>
 
       <Card.Section className={classes.section} mt="md">

@@ -58,6 +58,14 @@
   background-color: var(--mantine-color-blue-6);
 }
 
+.statusError {
+  color: var(--mantine-color-red-7);
+}
+
+.statusSuccess {
+  color: var(--mantine-color-green-7);
+}
+
 .nativeSelect {
   margin-block: 2rem;
 }

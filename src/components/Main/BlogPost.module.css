@@ -1,0 +1,55 @@
+.page {
+  color: #111;
+}
+
+.page :where(h1, h2, h3, h4) {
+  color: #111;
+}
+
+.body {
+  color: #111;
+}
+
+.body :where(h1, h2, h3, h4) {
+  margin-top: 1.5rem;
+  margin-bottom: 0.6rem;
+  color: #111;
+}
+
+.body :where(p, ul, ol, li) {
+  line-height: 1.7;
+  margin-bottom: 0.9rem;
+  color: #111;
+}
+
+.body :where(a) {
+  color: #111;
+  text-decoration: underline;
+}
+
+.body :where(img) {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--mantine-radius-md);
+  border: 1px solid #111;
+}
+
+.body :where(pre) {
+  overflow-x: auto;
+  padding: 1rem;
+  border-radius: var(--mantine-radius-md);
+  background: #111;
+  color: #fff;
+}
+
+.body :where(code) {
+  font-size: 0.9em;
+  color: inherit;
+}
+
+.body :where(blockquote) {
+  margin: 0 0 1rem;
+  padding-left: 1rem;
+  border-left: 3px solid #111;
+  color: #333;
+}

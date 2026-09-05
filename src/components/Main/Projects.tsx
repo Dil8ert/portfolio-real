@@ -8,49 +8,62 @@ import onlyFans from '../Images/onlyfans.mp4';
 import telegramBot from '../Images/SeiGambling.mp4';
 import treeNews from '../Images/treeNews.mp4';
 import CardComponent from './CardComponent';
+import { SequentialItem, useSequentialMedia } from '../Loading';
+
+const projects = [
+  {
+    text: 'Trading Website',
+    title: 'Lemon Terminal',
+    img: lemon,
+    url: 'https://lemon-demo-vlsi.vercel.app/',
+  },
+  {
+    text: 'Discord Boosting Website',
+    title: 'Boostify',
+    img: boostify,
+    url: 'https://boostify-app-bay.vercel.app/',
+  },
+  {
+    text: 'Gaming Website',
+    title: 'Fortune Bets',
+    img: fortune,
+  },
+  {
+    text: 'SEI Chain Gaming Bot',
+    title: 'Telegram Bot',
+    img: telegramBot,
+  },
+  {
+    text: 'Crypto Feed Website',
+    title: 'Tree News',
+    img: treeNews,
+  },
+  {
+    text: 'Solana Chain Gaming Bot',
+    title: 'Telegram Bot',
+    img: coinFlipTele,
+  },
+];
 
 export default function Projects() {
+  const { canLoad, markLoaded } = useSequentialMedia(projects.length, 1, 160);
+
   return (
     <Grid>
-      <Grid.Col span={{ base: 12, md: 6, lg: 3 }}>
-        <CardComponent
-          text="Trading Website"
-          title="Lemon Terminal"
-          img={lemon}
-          url="https://lemon-demo-vlsi.vercel.app/"
-        />
-      </Grid.Col>
-       <Grid.Col span={{ base: 12, md: 6, lg: 3 }}>
-        <CardComponent
-          text="Discord Boosting Website"
-          title="Boostify"
-          img={boostify}
-          url="https://boostify-app-bay.vercel.app/"
-        />
-      </Grid.Col>
-      <Grid.Col span={{ base: 12, md: 6, lg: 3 }}>
-        <CardComponent text="Gambling Website" title="Fortune Bets" img={fortune} />
-      </Grid.Col>
-      <Grid.Col span={{ base: 12, md: 6, lg: 3 }}>
-        <CardComponent text="OnlyFans Portfolio" title="OnlyFans Store" img={onlyFans} />
-      </Grid.Col>
-     
-      <Grid.Col span={{ base: 12, md: 6, lg: 3 }}>
-        <CardComponent
-          text="Trading Analytics Website(In Progress)"
-          title="Alpha Quest"
-          img={alphaQuest}
-        />
-      </Grid.Col>
-      <Grid.Col span={{ base: 12, md: 6, lg: 3 }}>
-        <CardComponent text="SEI Chain Gambling Bot" title="Telegram Bot" img={telegramBot} />
-      </Grid.Col>
-      <Grid.Col span={{ base: 12, md: 6, lg: 3 }}>
-        <CardComponent text="Crypto Feed Website" title="Tree News" img={treeNews} />
-      </Grid.Col>
-      <Grid.Col span={{ base: 12, md: 6, lg: 3 }}>
-        <CardComponent text="Solana Chain Gambling Bot" title="Telegram Bot" img={coinFlipTele} />
-      </Grid.Col>
+      {projects.map((item, index) => (
+        <Grid.Col key={`${item.title}-${item.text}`} span={{ base: 12, md: 6, lg: 3 }}>
+          <SequentialItem index={index}>
+            <CardComponent
+              text={item.text}
+              title={item.title}
+              img={item.img}
+              url={item.url}
+              active={canLoad(index)}
+              onReady={() => markLoaded(index)}
+            />
+          </SequentialItem>
+        </Grid.Col>
+      ))}
     </Grid>
   );
 }

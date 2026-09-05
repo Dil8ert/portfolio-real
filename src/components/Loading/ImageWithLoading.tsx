@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Image, Skeleton, Box } from '@mantine/core';
 
 interface ImageWithLoadingProps {
@@ -10,6 +10,8 @@ interface ImageWithLoadingProps {
   fit?: 'contain' | 'cover' | 'fill' | 'scale-down' | 'none';
   className?: string;
   style?: React.CSSProperties;
+  active?: boolean;
+  onReady?: () => void;
 }
 
 export function ImageWithLoading({
@@ -17,50 +19,79 @@ export function ImageWithLoading({
   alt,
   width = '100%',
   height = 200,
-  radius = 'md',
+  radius = 0,
   fit = 'cover',
   className,
   style,
+  active = true,
+  onReady,
 }: ImageWithLoadingProps) {
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+  const readyRef = useRef(false);
+  const onReadyRef = useRef(onReady);
+  onReadyRef.current = onReady;
 
-  const handleLoad = () => {
-    setLoading(false);
-  };
+  useEffect(() => {
+    if (!active) {
+      readyRef.current = false;
+      setLoading(true);
+      return undefined;
+    }
 
-  const handleError = () => {
-    setLoading(false);
-    setError(true);
-  };
+    readyRef.current = false;
+    setLoading(true);
+
+    const finish = () => {
+      if (readyRef.current) {
+        return;
+      }
+      readyRef.current = true;
+      setLoading(false);
+      onReadyRef.current?.();
+    };
+
+    const img = new window.Image();
+    img.onload = finish;
+    img.onerror = finish;
+    img.src = src;
+    if (img.complete && img.naturalWidth > 0) {
+      finish();
+    }
+
+    return () => {
+      img.onload = null;
+      img.onerror = null;
+    };
+  }, [src, active]);
+
+  const showSkeleton = !active || loading;
 
   return (
-    <Box style={{ position: 'relative', width, height, ...style }}>
-      {loading && (
+    <Box style={{ position: 'relative', width, height, overflow: 'hidden', ...style }}>
+      {showSkeleton && (
         <Skeleton
-          height={height}
-          width={width}
+          height="100%"
+          width="100%"
           radius={radius}
-          style={{ position: 'absolute', top: 0, left: 0, zIndex: 1 }}
+          style={{ position: 'absolute', inset: 0, zIndex: 1 }}
         />
       )}
-      <Image
-        src={src}
-        alt={alt}
-        width={width}
-        height={height}
-        radius={radius}
-        fit={fit}
-        className={className}
-        onLoad={handleLoad}
-        onError={handleError}
-        style={{
-          opacity: loading ? 0 : 1,
-          transition: 'opacity 0.3s ease-in-out',
-          ...style,
-        }}
-        fallbackSrc="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik04NyA3NEg5M1Y4MEg4N1Y3NFoiIGZpbGw9IiNEREREREQiLz4KPHA+CjxyZWN0IHg9Ijc0IiB5PSI5NCIgd2lkdGg9IjUyIiBoZWlnaHQ9IjIiIGZpbGw9IiNEREREREQiLz4KPC9zdmc+"
-      />
+      {active && (
+        <Image
+          src={src}
+          alt={alt}
+          width="100%"
+          height="100%"
+          radius={radius}
+          fit={fit}
+          className={className}
+          style={{
+            opacity: loading ? 0 : 1,
+            transition: 'opacity 0.45s ease',
+            height: '100%',
+          }}
+        />
+      )}
     </Box>
   );
 }

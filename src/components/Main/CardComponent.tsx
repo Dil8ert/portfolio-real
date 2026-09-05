@@ -1,5 +1,4 @@
-import { Card, Image, Text, Badge, Button, Group } from '@mantine/core';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Card, Text, Button, Group } from '@mantine/core';
 import { VideoWithLoading } from '../Loading';
 
 interface card {
@@ -7,25 +6,29 @@ interface card {
   url?: string;
   title: string;
   img: string;
+  active?: boolean;
+  onReady?: () => void;
 }
 
-export default function CardComponent({ text, url, title, img }: card) {
-  const navigate = useNavigate();
-  const handleClick = (url?: string) => {
-    if (url) {
-      window.open(url, '_blank');
+export default function CardComponent({ text, url, title, img, active = true, onReady }: card) {
+  const handleClick = (target?: string) => {
+    if (target) {
+      window.open(target, '_blank');
     }
   };
+
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder>
-      <Card.Section component="a">
+      <Card.Section>
         <VideoWithLoading
           src={img}
           width="100%"
-          height="200px"
+          height={200}
           autoPlay
           loop
           muted
+          active={active}
+          onReady={onReady}
         />
       </Card.Section>
 

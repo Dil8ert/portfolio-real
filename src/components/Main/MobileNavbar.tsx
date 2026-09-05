@@ -35,11 +35,11 @@ export function MobileNavbar({ component: Component }: MobileNavbarProps) {
                 Home
               </Link>
               <Link
-                to={'/services'}
+                to={'/blog'}
                 className={classes.control}
                 style={{ textDecoration: 'none', color: 'white' }}
               >
-                Services
+                Blog
               </Link>
               <Link
                 to={'/projects'}
@@ -69,11 +69,11 @@ export function MobileNavbar({ component: Component }: MobileNavbarProps) {
           Home
         </Link>
         <Link
-          to={'/services'}
+          to={'/blog'}
           className={classes.control}
           style={{ textDecoration: 'none', color: 'white' }}
         >
-          Services
+          Blog
         </Link>
         <Link
           to={'/projects'}

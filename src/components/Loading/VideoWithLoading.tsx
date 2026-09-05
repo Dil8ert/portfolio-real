@@ -1,5 +1,5 @@
-import { useState, useRef } from 'react';
-import { Skeleton, Box, Loader, Center } from '@mantine/core';
+import { useEffect, useRef, useState } from 'react';
+import { Skeleton, Box } from '@mantine/core';
 
 interface VideoWithLoadingProps {
   src: string;
@@ -11,6 +11,9 @@ interface VideoWithLoadingProps {
   controls?: boolean;
   className?: string;
   style?: React.CSSProperties;
+  active?: boolean;
+  onReady?: () => void;
+  radius?: string | number;
 }
 
 export function VideoWithLoading({
@@ -23,82 +26,100 @@ export function VideoWithLoading({
   controls = false,
   className,
   style,
+  active = true,
+  onReady,
+  radius = 'md',
 }: VideoWithLoadingProps) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const readyRef = useRef(false);
+  const onReadyRef = useRef(onReady);
+  onReadyRef.current = onReady;
 
-  const handleLoadedData = () => {
+  useEffect(() => {
+    readyRef.current = false;
+    setLoading(true);
+    setError(false);
+  }, [src, active]);
+
+  const finish = (failed = false) => {
+    if (readyRef.current) {
+      return;
+    }
+    readyRef.current = true;
+    setError(failed);
     setLoading(false);
+    onReadyRef.current?.();
   };
 
-  const handleError = () => {
-    setLoading(false);
-    setError(true);
-  };
+  useEffect(() => {
+    if (!active) {
+      return undefined;
+    }
+    const timer = window.setTimeout(() => finish(), 20000);
+    return () => window.clearTimeout(timer);
+  }, [active, src]);
 
-  const handleCanPlay = () => {
-    setLoading(false);
-  };
+  const showSkeleton = !active || loading;
 
   return (
-    <Box style={{ position: 'relative', width, height, ...style }}>
-      {loading && (
-        <Box
+    <Box
+      style={{
+        position: 'relative',
+        width,
+        height,
+        overflow: 'hidden',
+      }}
+    >
+      {showSkeleton && (
+        <Skeleton
+          height="100%"
+          width="100%"
+          radius={radius}
+          style={{ position: 'absolute', inset: 0, zIndex: 1 }}
+        />
+      )}
+      {active && (
+        // Decorative muted preview clips do not need captions
+        // eslint-disable-next-line jsx-a11y/media-has-caption
+        <video
+          width="100%"
+          height="100%"
+          autoPlay={autoPlay}
+          loop={loop}
+          muted={muted}
+          controls={controls}
+          playsInline
+          preload="auto"
+          className={className}
+          onCanPlay={() => finish()}
+          onLoadedData={() => finish()}
+          onError={() => finish(true)}
           style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
             width: '100%',
             height: '100%',
-            zIndex: 2,
-            backgroundColor: '#f8f9fa',
-            borderRadius: '8px',
+            objectFit: 'cover',
+            opacity: loading ? 0 : 1,
+            transition: 'opacity 0.45s ease',
+            display: 'block',
+            ...style,
           }}
         >
-          <Skeleton height="60%" width="100%" radius="md" mb="sm" />
-          <Center style={{ height: '40%' }}>
-            <Loader size="md" />
-          </Center>
-        </Box>
+          <source src={src} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
       )}
-      <video
-        ref={videoRef}
-        width={width}
-        height={height}
-        autoPlay={autoPlay}
-        loop={loop}
-        muted={muted}
-        controls={controls}
-        className={className}
-        onLoadedData={handleLoadedData}
-        onCanPlay={handleCanPlay}
-        onError={handleError}
-        style={{
-          opacity: loading ? 0 : 1,
-          transition: 'opacity 0.3s ease-in-out',
-          borderRadius: '8px',
-          ...style,
-        }}
-      >
-        <source src={src} type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
       {error && !loading && (
         <Box
           style={{
             position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            backgroundColor: '#f8f9fa',
-            borderRadius: '8px',
+            inset: 0,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             color: '#868e96',
             fontSize: '14px',
+            backgroundColor: 'var(--mantine-color-body)',
           }}
         >
           Video failed to load
