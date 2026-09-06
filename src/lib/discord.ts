@@ -64,6 +64,12 @@ export function validateContact(body: unknown): ValidationResult {
 
 export async function sendContactToDiscord(payload: ContactPayload) {
   const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
+  // eslint-disable-next-line no-console
+  console.log('[env] sendContactToDiscord', {
+    DISCORD_WEBHOOK_URL: webhookUrl
+      ? { set: true, length: webhookUrl.length, valid: isAllowedWebhookUrl(webhookUrl) }
+      : { set: false, length: 0, valid: false },
+  });
   if (!webhookUrl || !isAllowedWebhookUrl(webhookUrl)) {
     throw new Error('DISCORD_WEBHOOK_URL is not configured');
   }

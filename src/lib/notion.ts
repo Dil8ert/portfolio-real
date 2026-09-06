@@ -1,6 +1,7 @@
 import { Client } from '@notionhq/client';
 import { NotionToMarkdown } from 'notion-to-md';
 import type { BlogPost, BlogPostSummary } from './blog';
+import { logServerEnv } from './env';
 
 type NotionProperty = {
   type?: string;
@@ -41,6 +42,7 @@ export function isNotionConfigured() {
 }
 
 function getNotion() {
+  logServerEnv('getNotion');
   if (!process.env.NOTION_TOKEN) {
     return null;
   }

@@ -1,5 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { sendContactToDiscord, validateContact } from '../src/lib/discord';
+import { logServerEnv } from '../src/lib/env';
 
 function readBody(req: VercelRequest): unknown {
   if (typeof req.body === 'string') {
@@ -13,6 +14,7 @@ function readBody(req: VercelRequest): unknown {
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
+  logServerEnv('api/contact');
   res.setHeader('Content-Type', 'application/json');
   res.setHeader('Cache-Control', 'no-store');
 

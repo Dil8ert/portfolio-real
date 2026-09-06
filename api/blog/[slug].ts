@@ -1,7 +1,9 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { logServerEnv } from '../../src/lib/env';
 import { getPostBySlug } from '../../src/lib/notion';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
+  logServerEnv('api/blog/[slug]');
   res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate=300');
   res.setHeader('Content-Type', 'application/json');
 
