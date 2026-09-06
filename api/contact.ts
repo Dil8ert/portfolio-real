@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { sendContactToDiscord, validateContact } from '../src/lib/discord';
-import { logServerEnv } from '../src/lib/env';
+import { sendContactToDiscord, validateContact } from '../src/lib/discord.js';
+import { logServerEnv } from '../src/lib/env.js';
 
 function readBody(req: VercelRequest): unknown {
   if (typeof req.body === 'string') {

@@ -22,6 +22,7 @@ export default function Blog() {
   const [page, setPage] = useState<BlogPost | null | undefined>(undefined);
   const [children, setChildren] = useState<BlogPostSummary[]>([]);
   const [configured, setConfigured] = useState(true);
+  const [loadError, setLoadError] = useState(false);
   const { canLoad, markLoaded } = useSequentialMedia(children.length, 1, 160);
 
   useEffect(() => {
@@ -31,6 +32,7 @@ export default function Blog() {
         return;
       }
       setConfigured(result.configured);
+      setLoadError(Boolean(result.loadError));
       setPage(result.page);
       setChildren(result.children);
     });
@@ -44,16 +46,21 @@ export default function Blog() {
   }
 
   if (!page) {
+    let message =
+      'Add NOTION_TOKEN and NOTION_PAGE_ID to .env, then restart the app. The page ID is the 32-character value in the Notion URL.';
+    if (loadError) {
+      message = 'Could not load the blog. Try again in a moment.';
+    } else if (configured) {
+      message =
+        'Could not load that Notion page. Share it with the portfolio integration (Connections → add “portfolio”), then restart the app.';
+    }
+
     return (
       <Stack gap="sm" maw={640} className={pageClasses.page} data-mantine-color-scheme="light">
         <Title order={2} c="#111">
           Blog
         </Title>
-        <Text c="#333">
-          {configured
-            ? 'Could not load that Notion page. Share it with the portfolio integration (Connections → add “portfolio”), then restart the app.'
-            : 'Add NOTION_TOKEN and NOTION_PAGE_ID to .env, then restart the app. The page ID is the 32-character value in the Notion URL.'}
-        </Text>
+        <Text c="#333">{message}</Text>
       </Stack>
     );
   }

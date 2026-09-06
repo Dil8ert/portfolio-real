@@ -1,7 +1,7 @@
 import { Client } from '@notionhq/client';
 import { NotionToMarkdown } from 'notion-to-md';
 import type { BlogPost, BlogPostSummary } from './blog';
-import { logServerEnv } from './env';
+import { logServerEnv } from './env.js';
 
 type NotionProperty = {
   type?: string;

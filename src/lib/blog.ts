@@ -16,6 +16,7 @@ export type BlogListResponse = {
   page: BlogPost | null;
   children: BlogPostSummary[];
   configured: boolean;
+  loadError?: boolean;
 };
 
 export type BlogPostResponse = {
@@ -31,10 +32,18 @@ async function readJson<T>(response: Response): Promise<T | null> {
 
 export async function fetchBlogPosts(): Promise<BlogListResponse> {
   try {
-    const data = await readJson<BlogListResponse>(await fetch('/api/blog'));
-    return data ?? { page: null, children: [], configured: false };
+    const response = await fetch('/api/blog');
+    if (!response.ok) {
+      return { page: null, children: [], configured: true, loadError: true };
+    }
+    const data = (await response.json()) as BlogListResponse;
+    return {
+      page: data.page ?? null,
+      children: data.children ?? [],
+      configured: Boolean(data.configured),
+    };
   } catch {
-    return { page: null, children: [], configured: false };
+    return { page: null, children: [], configured: true, loadError: true };
   }
 }
 

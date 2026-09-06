@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { logServerEnv } from '../../src/lib/env';
-import { getRootPage, isNotionConfigured } from '../../src/lib/notion';
+import { logServerEnv } from '../../src/lib/env.js';
+import { getRootPage, isNotionConfigured } from '../../src/lib/notion.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   logServerEnv('api/blog');
