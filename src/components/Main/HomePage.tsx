@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import dil8ert from '../Images/dil8ert.mp4';
 import classes from './MobileNavbar.module.css';
-import { RevealFromSkeleton, SequentialItem, VideoWithLoading } from '../Loading';
+import { RevealFromSkeleton, VideoWithLoading } from '../Loading';
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -19,22 +19,26 @@ export default function HomePage() {
 
   return (
     <Grid gutter={0} align="stretch">
-      <Grid.Col span={{ base: 12, md: 7, lg: 7 }} h={{ base: 280, md: 'calc(100dvh - 76px)' }} p={0}>
-        <SequentialItem index={0} stagger={0} style={{ height: '100%', width: '100%' }}>
-          <VideoWithLoading
-            src={dil8ert}
-            width="100%"
-            height="100%"
-            autoPlay
-            muted
-            radius={0}
-            style={{
-              objectFit: 'cover',
-              margin: 0,
-              padding: 0,
-            }}
-          />
-        </SequentialItem>
+      <Grid.Col
+        span={{ base: 12, md: 7, lg: 7 }}
+        h={{ base: 280, md: 'calc(100dvh - 76px)' }}
+        p={0}
+        data-mantine-color-scheme="light"
+        style={{ backgroundColor: 'var(--mantine-color-gray-1)' }}
+      >
+        <VideoWithLoading
+          src={dil8ert}
+          width="100%"
+          height="100%"
+          autoPlay
+          muted
+          radius={0}
+          style={{
+            objectFit: 'cover',
+            margin: 0,
+            padding: 0,
+          }}
+        />
       </Grid.Col>
       <Grid.Col
         span={{ base: 12, md: 5, lg: 5 }}
@@ -69,8 +73,8 @@ export default function HomePage() {
               </>
             }
           >
-            Make your own service now! A store, a trading dashboard, a gaming dashboard, get what you
-            want! Fully Customized ! Cheap rates!
+            Make your own service now! A store, a trading dashboard, a gaming dashboard, get what
+            you want! Fully Customized ! Cheap rates!
           </RevealFromSkeleton>
         </div>
 

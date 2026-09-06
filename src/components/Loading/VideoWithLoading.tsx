@@ -30,16 +30,19 @@ export function VideoWithLoading({
   onReady,
   radius = 'md',
 }: VideoWithLoadingProps) {
-  const [loading, setLoading] = useState(true);
+  const [ready, setReady] = useState(false);
   const [error, setError] = useState(false);
+  const [showSkeleton, setShowSkeleton] = useState(true);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
   const readyRef = useRef(false);
   const onReadyRef = useRef(onReady);
   onReadyRef.current = onReady;
 
   useEffect(() => {
     readyRef.current = false;
-    setLoading(true);
+    setReady(false);
     setError(false);
+    setShowSkeleton(true);
   }, [src, active]);
 
   const finish = (failed = false) => {
@@ -48,7 +51,7 @@ export function VideoWithLoading({
     }
     readyRef.current = true;
     setError(failed);
-    setLoading(false);
+    setReady(true);
     onReadyRef.current?.();
   };
 
@@ -56,11 +59,23 @@ export function VideoWithLoading({
     if (!active) {
       return undefined;
     }
+    const video = videoRef.current;
+    if (video && video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
+      if (!autoPlay || !video.paused) {
+        finish();
+      }
+    }
     const timer = window.setTimeout(() => finish(), 20000);
     return () => window.clearTimeout(timer);
-  }, [active, src]);
+  }, [active, src, autoPlay]);
 
-  const showSkeleton = !active || loading;
+  useEffect(() => {
+    if (!ready) {
+      return undefined;
+    }
+    const timer = window.setTimeout(() => setShowSkeleton(false), 400);
+    return () => window.clearTimeout(timer);
+  }, [ready]);
 
   return (
     <Box
@@ -69,20 +84,14 @@ export function VideoWithLoading({
         width,
         height,
         overflow: 'hidden',
+        backgroundColor: 'transparent',
       }}
     >
-      {showSkeleton && (
-        <Skeleton
-          height="100%"
-          width="100%"
-          radius={radius}
-          style={{ position: 'absolute', inset: 0, zIndex: 1 }}
-        />
-      )}
       {active && (
         // Decorative muted preview clips do not need captions
         // eslint-disable-next-line jsx-a11y/media-has-caption
         <video
+          ref={videoRef}
           width="100%"
           height="100%"
           autoPlay={autoPlay}
@@ -92,16 +101,24 @@ export function VideoWithLoading({
           playsInline
           preload="auto"
           className={className}
-          onCanPlay={() => finish()}
-          onLoadedData={() => finish()}
+          onPlaying={() => finish()}
+          onLoadedData={() => {
+            if (!autoPlay) {
+              finish();
+            }
+          }}
+          onCanPlay={() => {
+            if (!autoPlay) {
+              finish();
+            }
+          }}
           onError={() => finish(true)}
           style={{
             width: '100%',
             height: '100%',
             objectFit: 'cover',
-            opacity: loading ? 0 : 1,
-            transition: 'opacity 0.45s ease',
             display: 'block',
+            backgroundColor: 'transparent',
             ...style,
           }}
         >
@@ -109,7 +126,22 @@ export function VideoWithLoading({
           Your browser does not support the video tag.
         </video>
       )}
-      {error && !loading && (
+      {(!active || showSkeleton) && (
+        <Skeleton
+          height="100%"
+          width="100%"
+          radius={radius}
+          style={{
+            position: 'absolute',
+            inset: 0,
+            zIndex: 1,
+            opacity: active && ready ? 0 : 1,
+            transition: 'opacity 0.4s ease',
+            pointerEvents: 'none',
+          }}
+        />
+      )}
+      {error && ready && (
         <Box
           style={{
             position: 'absolute',
@@ -120,6 +152,7 @@ export function VideoWithLoading({
             color: '#868e96',
             fontSize: '14px',
             backgroundColor: 'var(--mantine-color-body)',
+            zIndex: 2,
           }}
         >
           Video failed to load
