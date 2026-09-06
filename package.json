@@ -1,6 +1,7 @@
 {
   "name": "mantine-vite-template",
   "private": true,
+  "type": "module",
   "version": "0.0.0",
   "engines": {
     "node": "24.x"

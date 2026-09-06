@@ -103,18 +103,13 @@ function contactApiPlugin() {
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
-  if (env.NOTION_TOKEN) {
-    process.env.NOTION_TOKEN = env.NOTION_TOKEN;
-  }
-  if (env.NOTION_PAGE_ID) {
-    process.env.NOTION_PAGE_ID = env.NOTION_PAGE_ID;
-  }
-  if (env.NOTION_DATABASE_ID) {
-    process.env.NOTION_DATABASE_ID = env.NOTION_DATABASE_ID;
-  }
-  if (env.DISCORD_WEBHOOK_URL) {
-    process.env.DISCORD_WEBHOOK_URL = env.DISCORD_WEBHOOK_URL;
-  }
+  process.env.NOTION_TOKEN = env.NOTION_TOKEN || env.VITE_NOTION_TOKEN || process.env.NOTION_TOKEN;
+  process.env.NOTION_PAGE_ID =
+    env.NOTION_PAGE_ID || env.VITE_NOTION_PAGE_ID || process.env.NOTION_PAGE_ID;
+  process.env.NOTION_DATABASE_ID =
+    env.NOTION_DATABASE_ID || env.VITE_NOTION_DATABASE_ID || process.env.NOTION_DATABASE_ID;
+  process.env.DISCORD_WEBHOOK_URL =
+    env.DISCORD_WEBHOOK_URL || env.VITE_DISCORD_WEBHOOK_URL || process.env.DISCORD_WEBHOOK_URL;
 
   return {
     plugins: [react(), tsconfigPaths(), blogApiPlugin(), contactApiPlugin()],
