@@ -3,15 +3,14 @@ import { useDisclosure } from '@mantine/hooks';
 // import { MantineLogo } from '@mantinex/mantine-logo';
 import classes from './MobileNavbar.module.css';
 
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 interface MobileNavbarProps {
   component: React.ComponentType<any>; // Use React.ComponentType to represent any component type
 }
 
 export function MobileNavbar({ component: Component }: MobileNavbarProps) {
-  const [opened, { toggle }] = useDisclosure();
-  const navigate = useNavigate();
+  const [opened, { toggle, close }] = useDisclosure();
   const location = useLocation();
   const pathname = location.pathname;
 
@@ -65,6 +64,7 @@ export function MobileNavbar({ component: Component }: MobileNavbarProps) {
           to={'/home'}
           className={classes.control}
           style={{ textDecoration: 'none', color: 'white' }}
+          onClick={close}
         >
           Home
         </Link>
@@ -72,6 +72,7 @@ export function MobileNavbar({ component: Component }: MobileNavbarProps) {
           to={'/blog'}
           className={classes.control}
           style={{ textDecoration: 'none', color: 'white' }}
+          onClick={close}
         >
           Blog
         </Link>
@@ -79,6 +80,7 @@ export function MobileNavbar({ component: Component }: MobileNavbarProps) {
           to={'/projects'}
           className={classes.control}
           style={{ textDecoration: 'none', color: 'white' }}
+          onClick={close}
         >
           Projects
         </Link>
@@ -86,6 +88,7 @@ export function MobileNavbar({ component: Component }: MobileNavbarProps) {
           to={'/contact'}
           className={classes.control}
           style={{ textDecoration: 'none', color: 'white' }}
+          onClick={close}
         >
           Contact Us!
         </Link>
